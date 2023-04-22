@@ -35,6 +35,9 @@ def translate(source, translator, sp_source_model, sp_target_model):
     """
 
     source_sentences = sent_tokenize(source)
+    if len(source_sentences)==1:
+        source_sentences = [source_sentences[0]+'.']
+    print(source_sentences)
     source_tokenized = sp_source_model.encode(source_sentences, out_type=str)
     translations = translator.translate_batch(source_tokenized)
     translations = [translation[0]["tokens"] for translation in translations]
@@ -47,7 +50,7 @@ def translate(source, translator, sp_source_model, sp_target_model):
 st.title("Translate")
 
 # Textarea to type the source text.
-user_input = st.text_area("Source Text", max_chars=200)
+user_input = st.text_area("Source Text", max_chars=20000)
 col1, col2 = st.columns([2,6],gap='large')
 with col1:
     ru2vi_button = st.button(label='ru2vi')
